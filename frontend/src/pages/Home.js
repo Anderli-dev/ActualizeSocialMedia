@@ -2,7 +2,7 @@ import React from "react";
 
 export function Home(){
     return(
-        <div className="dark container">
+        <div>
             <p>Hello world!</p>
         </div>
     )
