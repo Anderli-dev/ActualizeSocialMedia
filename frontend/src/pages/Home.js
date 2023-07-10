@@ -62,6 +62,17 @@ export function Home(){
                     </div>
                 </div>
             </div>
+
+            <div className="d-flex flex-column align-items-center mt-5" style={{marginBottom: "100px"}}>
+                <p className="h1 mb-4" >Unleash Your True Potential! 🚀</p>
+                <Button size={"lg"} className="d-flex rounded-pill">
+                    <p className="m-0">Start free</p>
+                    <div className="align-self-center ms-3">
+                        <ImArrowRight style={{marginTop:"-4px"}} size="1.3em"/>
+                    </div>
+                </Button>
+            </div>
+
         </div>
     )
 }
