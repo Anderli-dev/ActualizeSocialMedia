@@ -5,8 +5,9 @@ services:
     image: postgres
     restart: always
     environment:
-      POSTGRES_PASSWORD: "123456"
-      POSTGRES_DB: "ASM"
-      POSTGRES_USER: "admin"
+      POSTGRES_PASSWORD: 123456
+      POSTGRES_DB: ASM
+      POSTGRES_USER: admin
+      POSTGRES_HOST: localhost
     ports:
-      - 8080:8080
+      - 5432:5432
