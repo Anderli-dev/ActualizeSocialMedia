@@ -1,13 +1,39 @@
-from fastapi import FastAPI
+from typing import Type, Any
 
-app = FastAPI()
+from fastapi import FastAPI, APIRouter
+from starlette.middleware.cors import CORSMiddleware
 
-
-@app.get("/")
-async def root():
-    return {"message": "Hello World"}
+from config import settings
 
 
-@app.get("/hello/{name}")
-async def say_hello(name: str):
-    return {"message": f"Hello {name}"}
+class ViewRouter(FastAPI):
+    def __init__(self, api_router: APIRouter, **extra: Any,):
+        super().__init__(**extra)
+        self.router = api_router
+
+    def add_view(self, cls: Type[object], path: str = "/") -> None:
+        obj = cls()
+        for method in dir(obj):
+            if method in ["get", "head", "post", ...]:
+                self.router.add_api_route(
+                    path,
+                    getattr(obj, method),
+                    methods=[method],
+                )
+
+
+router = APIRouter()
+app = ViewRouter(router)
+
+
+origins = [
+    settings.CLIENT_ORIGIN,
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
