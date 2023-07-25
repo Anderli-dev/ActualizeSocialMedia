@@ -3,15 +3,8 @@ from starlette.middleware.cors import CORSMiddleware
 
 from config import settings
 
-
-class ViewRouter(FastAPI):
-    def __init__(self, api_router: APIRouter, **extra: Any,):
-        super().__init__(**extra)
-        self.router = api_router
-
 app = FastAPI()
 router = APIRouter()
-app = ViewRouter(router)
 
 
 origins = [
