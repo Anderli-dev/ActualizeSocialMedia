@@ -2,6 +2,7 @@ from fastapi import FastAPI, APIRouter
 from starlette.middleware.cors import CORSMiddleware
 
 from config import settings
+import models
 
 app = FastAPI()
 router = APIRouter()
@@ -19,6 +20,6 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-import views
+import views # noqa
 
 app.include_router(router)
