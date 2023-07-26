@@ -1,26 +1,27 @@
-from pydantic import BaseModel, EmailStr
+from pydantic import BaseModel, EmailStr, constr
 from typing import Optional
+import uuid
 
 
-class UserBase(BaseModel):
+class UserBaseSchema(BaseModel):
     username: str
     email: EmailStr
 
 
-class UserCreate(UserBase):
-    password: str
+class UserCreateSchema(UserBaseSchema):
+    password: constr(min_length=8)
 
 
-class UserUpdate(UserCreate):
-    id: int
+class UserUpdateSchema(UserCreateSchema):
+    id: uuid.UUID
 
 
-class User(UserBase):
+class UserSchema(UserBaseSchema):
     id: Optional[int] = None
 
     class Config:
         orm_mode = True
 
 
-class UserInDB(User):
+class UserInDBSchema(UserSchema):
     hashed_password: str
