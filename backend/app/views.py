@@ -1,4 +1,4 @@
-from fastapi import Depends, HTTPException, status
+from fastapi import Depends, HTTPException, status, Response
 from fastapi.security import OAuth2PasswordRequestForm
 from fastapi_class import View
 from pydantic import EmailStr
@@ -7,7 +7,7 @@ import utils
 from database import get_db, SessionLocal
 from main import router
 from models import UserModel
-from shemas import UserCreateSchema, UserInDBSchema
+from shemas import UserCreateSchema, UserInDBSchema, TokenSchema
 
 
 @View(router)
@@ -50,3 +50,44 @@ class RegisterView:
         user["hashed_password"] = payload.password
 
         return user
+
+
+@View(router, path="/login")
+class LoginView:
+    RESPONSE_MODEL = {
+        "post": TokenSchema
+    }
+
+    async def post(self,
+                   response: Response,
+                   form_data: OAuth2PasswordRequestForm = Depends(),
+                   db: SessionLocal = Depends(get_db)):
+        user_query = db.query(UserModel).filter(UserModel.email == EmailStr(form_data.username.lower()))
+        user = user_query.first()
+
+        if user is None:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="Incorrect email or password"
+            )
+
+        hashed_pass = user.password
+        if not utils.verify_password(form_data.password, hashed_pass):
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="Incorrect email or password"
+            )
+
+        access_token = utils.create_access_token(user.email)
+        refresh_token = utils.create_refresh_token(user.email)
+
+        response.set_cookie('access_token', access_token, 60 * 60 * 24 * 7,
+                            60 * 60 * 24 * 7, '/', None, False, True, 'lax')
+        response.set_cookie('refresh_token', refresh_token,
+                            60 * 60 * 24 * 7, 60 * 60 * 24 * 7, '/', None, False, True, 'lax')
+        response.set_cookie('logged_in', 'True', 60 * 60 * 24 * 7,
+                            60 * 60 * 24 * 7, '/', None, False, False, 'lax')
+
+        return {
+            "access_token": access_token,
+        }

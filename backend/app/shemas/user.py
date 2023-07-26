@@ -1,5 +1,6 @@
-from pydantic import BaseModel, EmailStr
+from pydantic import BaseModel, EmailStr, constr
 from typing import Optional
+import uuid
 
 
 class UserBaseSchema(BaseModel):
@@ -8,11 +9,11 @@ class UserBaseSchema(BaseModel):
 
 
 class UserCreateSchema(UserBaseSchema):
-    password: str
+    password: constr(min_length=8)
 
 
 class UserUpdateSchema(UserCreateSchema):
-    id: int
+    id: uuid.UUID
 
 
 class UserSchema(UserBaseSchema):
