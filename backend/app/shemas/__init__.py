@@ -1,1 +1,1 @@
-from .user import User, UserInDB, UserCreate, UserUpdate
+from .user import UserSchema, UserInDBSchema, UserCreateSchema, UserUpdateSchema
