@@ -10,8 +10,11 @@ export function NavBar() {
           <div className="d-flex justify-content-between px-3">
             <Navbar.Brand href="#">ASM</Navbar.Brand>
             <div className="d-flex">
+              <Nav className="justify-content-end">
+                <Nav.Link href="/login/">Login</Nav.Link>
+              </Nav>
               <Nav className="justify-content-end px-5">
-                <Nav.Link href="#action">Login</Nav.Link>
+                <Nav.Link href="/register/">Register</Nav.Link>
               </Nav>
               <Navbar.Toggle aria-controls={`offcanvasNavbar-expand-${expand}`} />
               <Navbar.Offcanvas

@@ -9,7 +9,7 @@ router = APIRouter()
 
 
 origins = [
-    settings.CLIENT_ORIGIN,
+    "*",
 ]
 
 app.add_middleware(
