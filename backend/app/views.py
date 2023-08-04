@@ -91,3 +91,13 @@ class LoginView:
         return {
             "access_token": access_token,
         }
+
+
+@View(router, path="/logout")
+class LogoutView:
+    async def get(self, response: Response,):
+        response.delete_cookie('access_token', path='/')
+        response.delete_cookie('refresh_token', path='/')
+        response.delete_cookie('logged_in', path='/')
+
+        return status.HTTP_200_OK
