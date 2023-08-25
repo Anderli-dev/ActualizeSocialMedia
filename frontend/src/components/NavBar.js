@@ -13,7 +13,7 @@ export function NavBar() {
             <Navbar.Brand href="/">ASM</Navbar.Brand>
             <div className="d-flex">
 
-            {username ? ( // Відображення "username" якщо він є у localStorage
+            {username ? ( // need to do smth with cookies
                 <>
                 <Nav className="justify-content-end px-5">
                   <Nav.Link href="#">{username}</Nav.Link>
@@ -25,7 +25,7 @@ export function NavBar() {
               ) : (
                 <>
                   <Nav className="justify-content-end ">
-                    <Nav.Link href="#">Login</Nav.Link>
+                    <Nav.Link href="/login/">Login</Nav.Link>
                   </Nav>
                   <Nav className="justify-content-end px-5">
                     <Nav.Link href="/register/">Register</Nav.Link>

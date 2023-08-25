@@ -81,12 +81,13 @@ class LoginView:
         access_token = utils.create_access_token(user.email)
         refresh_token = utils.create_refresh_token(user.email)
 
-        response.set_cookie('access_token', access_token, 60 * 60 * 24 * 7,
-                            60 * 60 * 24 * 7, '/', None, False, True, 'lax')
+        response.set_cookie(key='access_token', value=access_token, max_age=60 * 60 * 24 * 7,
+                            expires=60 * 60 * 24 * 7, path='/', domain='localhost:3000',
+                            secure=False, httponly=True, samesite='lax')
         response.set_cookie('refresh_token', refresh_token,
-                            60 * 60 * 24 * 7, 60 * 60 * 24 * 7, '/', None, False, True, 'lax')
+                            60 * 60 * 24 * 7, 60 * 60 * 24 * 7, '/', 'localhost:3000', False, True, 'lax')
         response.set_cookie('logged_in', 'True', 60 * 60 * 24 * 7,
-                            60 * 60 * 24 * 7, '/', None, False, False, 'lax')
+                            60 * 60 * 24 * 7, '/', 'localhost:3000', False, False, 'lax')
 
         return {
             "access_token": access_token,

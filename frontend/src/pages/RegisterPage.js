@@ -41,11 +41,11 @@ export function RegisterPage() {
         {headers: {
           'Content-Type': "application/x-www-form-urlencoded",
           'Access-Control-Allow-Origin': "*",
-          }}
+          }, withCredentials: true}
     )
     .then(response => {
       console.log('Server response:', response.data.token);
-      window.location.replace('/');
+      //window.location.replace('/');
     })
     .catch(error => {
       console.error('Error:', error);
